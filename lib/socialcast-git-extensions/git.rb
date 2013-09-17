@@ -169,6 +169,12 @@ module Socialcast
       def review_buddies
         config['review_buddies'] || {}
       end
+      
+      # load prune setting from SCGITX Configuration YML
+      def should_prune?
+         config['should_prune'] || true
+      end
+      
     end
   end
 end

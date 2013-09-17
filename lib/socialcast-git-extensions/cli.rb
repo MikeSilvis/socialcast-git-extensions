@@ -101,7 +101,7 @@ module Socialcast
         run_cmd "git checkout #{Socialcast::Gitx::BASE_BRANCH}"
         run_cmd 'git pull'
         run_cmd "git checkout -b #{branch_name}"
-
+   
         post "#worklog starting work on #{branch_name} #scgitx"
       end
 
@@ -151,6 +151,7 @@ module Socialcast
       end
 
       desc 'release', 'release the current branch to production'
+      method_option :prune, :type => :boolean, :force => true, :aliases => '-p'
       def release
         branch = current_branch
         assert_not_protected_branch!(branch, 'release')
@@ -162,8 +163,9 @@ module Socialcast
         run_cmd "git pull origin #{Socialcast::Gitx::BASE_BRANCH}"
         run_cmd "git pull . #{branch}"
         run_cmd "git push origin HEAD"
-        integrate_branch('master', 'staging')
-        cleanup
+        integrate_branch('master', 'staging')      
+        #prune when setting is absent from YML, -p or --prune overrides YML
+        cleanup if should_prune? && options[:prune]
 
         post "#worklog releasing #{branch} to production #scgitx"
       end
