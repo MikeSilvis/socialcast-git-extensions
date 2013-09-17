@@ -101,7 +101,7 @@ module Socialcast
         run_cmd "git checkout #{Socialcast::Gitx::BASE_BRANCH}"
         run_cmd 'git pull'
         run_cmd "git checkout -b #{branch_name}"
-   
+
         post "#worklog starting work on #{branch_name} #scgitx"
       end
 
